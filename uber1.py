@@ -1,11 +1,13 @@
 import pandas as pd
 import numpy as np
 import streamlit as st
+
 st.title('Uber pickups in NYC')
 DATE_COLUMN = 'date/time'
-DATA_URL = ('/content/uber_dataset.csv')
-@st.cache
-  def load_data(nrows):
+DATA_URL = ("https://raw.githubusercontent.com/adsoftsito/ciencia-de-datos/refs/heads/main/uber.csv")
+@st.cache_data
+
+def load_data(nrows):
   data = pd.read_csv(DATA_URL, nrows=nrows)
   lowercase = lambda x: str(x).lower()
   data.rename(lowercase, axis='columns', inplace=True)
