@@ -1,9 +1,16 @@
 import streamlit as st
 import pandas as pd
 
-DATA_URL = pd.read_csv("https://raw.githubusercontent.com/adsoftsito/nosql/refs/heads/main/csv/movies.csv", encoding='latin1')
-st.dataframe(DATA_URL)
+@st.cache_data
+def load_data(nrows=500):
+    return pd.read_csv("https://raw.githubusercontent.com/adsoftsito/ciencia-datos/refs/heads/main/movies.csv",nrows=nrows,encoding="latin-1")
 
-sidebar = st.sidebar
-sidebar.title("Funciones de filtrado")
-sidebar.write("Aquí van los elementos de entrada.")
+movies_data = load_data()
+
+st.header("Data Description")
+st.dataframe(movies_data)
+
+if st.sidebar.checkbox("Mostrar todos los filmes"):
+    st.subheader("Todos los filmes")
+    st.write(f"Total filmes: {len(movies_data)}")
+    st.dataframe(movies_data)
